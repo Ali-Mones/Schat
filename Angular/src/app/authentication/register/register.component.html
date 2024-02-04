@@ -65,3 +65,11 @@
     <button (click)="handleRegister()" type="button">register</button>
   </form>
 </div>
+
+<app-toast
+  *ngIf="toastShown"
+  [message]="toastMessage"
+  [status]="toastStatus"
+  [timeout]="3000"
+  (shownEvent)="toastShown = $event"
+></app-toast>

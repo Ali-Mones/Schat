@@ -4,6 +4,8 @@
     --primary-colour: #fafafa;
     --secondary-colour: #212121;
     --ternary-colour: #424242;
+    --error: #d50000;
+    --success: #00d500;
 }
 
 .container {

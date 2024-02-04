@@ -1,0 +1,38 @@
+<div class="container">
+  <div
+    style="
+      background-color: #313131;
+      width: 60%;
+      height: 70%;
+      border-radius: 100px;
+      display: grid;
+      grid-template-rows: 13fr 1fr;
+      padding-bottom: 50px;
+    "
+  >
+    <div #chat class="chat">
+      <span
+        [ngClass]="{ right: message.from == from, left: message.from == to }"
+        *ngFor="let message of messages"
+      >
+        {{ message.text }}
+        <span style="font-size: x-small">
+          {{
+            message.date.getHours().toString().padStart(2, "0") +
+              ":" +
+              message.date.getMinutes().toString().padStart(2, "0")
+          }}
+        </span>
+      </span>
+    </div>
+    <div class="chatBox">
+      <textarea
+        maxlength="256"
+        #chatBox
+        (keydown)="handleKeyDown($event)"
+        (input)="handleInput()"
+      ></textarea>
+      <button #sendButton (click)="handleSendMessage()">send</button>
+    </div>
+  </div>
+</div>

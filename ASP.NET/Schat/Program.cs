@@ -19,11 +19,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 {
     options.User.RequireUniqueEmail = true;
-    options.Password.RequiredLength = 1;
-    options.Password.RequireDigit = false;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireUppercase = false;
 })
 .AddEntityFrameworkStores<SchatContext>();
 
@@ -50,15 +45,18 @@ using (var scope = app.Services.CreateScope())
         }
     }
 
-    if (!ctx.Users.Any(u => u.UserName == "Admin"))
+    if (!ctx.Users.Any(u => u.Email == "admin@schat.com"))
     {
         User adminUser = new User
         {
-            Email = "Admin@schat.com",
-            UserName = "Admin"
+            FirstName = "Ali",
+            LastName = "Mones",
+            Nationality = "egypt",
+            Email = "admin@schat.com",
+            UserName = "admin"
         };
-        await userManager.CreateAsync(adminUser, "20010946");
 
+        await userManager.CreateAsync(adminUser, "Password@123");
         await userManager.AddToRoleAsync(adminUser, "Admin");
     }
 }

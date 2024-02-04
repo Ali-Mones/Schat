@@ -1,0 +1,21 @@
+.toast {
+    position: fixed;
+    bottom: 0;
+    left: calc(50% - 200px);
+
+    width: 400px;
+    height: 100px;
+
+    background-color: red;
+    color: var(--secondary-colour);
+
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+
+    text-align: center;
+    padding-top: 10px;
+
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bold;
+    white-space: pre-line;
+}

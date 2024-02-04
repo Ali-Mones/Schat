@@ -7,12 +7,16 @@ import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastComponent } from './toast/toast.component';
+import { ChatInstanceComponent } from './chat/chat-instance/chat-instance.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ToastComponent,
+    ChatInstanceComponent
   ],
   imports: [
     BrowserModule,

@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       alert("Email is required");
     } else {
       alert("Email is valid");
-    }
+    }``
   }
 
   handleRegsiter() {

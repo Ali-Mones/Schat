@@ -24,7 +24,7 @@ namespace Schat.Controllers
 		}
 
 		// POST: api/Authentication/register
-		[HttpPost("/register")]
+		[HttpPost("register")]
 		public async Task<IActionResult> Register(RegisterRequest request)
 		{
 			if (!ModelState.IsValid)
@@ -58,7 +58,7 @@ namespace Schat.Controllers
 		}
 
 		// POST: api/Authentication/login
-		[HttpPost("/login")]
+		[HttpPost("login")]
 		public async Task<IActionResult> Login(LoginRequest request)
 		{
 			if (!ModelState.IsValid)

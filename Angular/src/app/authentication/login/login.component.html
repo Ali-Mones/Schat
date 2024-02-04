@@ -1,0 +1,11 @@
+<div class="container">
+  <h1>schat</h1>
+  <form action="" [formGroup]="form">
+    <input type="email" placeholder="email" formControlName="email" />
+    <input type="password" placeholder="password" formControlName="password" />
+    <div>
+      <button type="button" (click)="handleLogin()">login</button>
+      <button (click)="handleRegsiter()" type="button">register</button>
+    </div>
+  </form>
+</div>

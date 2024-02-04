@@ -1,0 +1,67 @@
+<div class="container">
+  <h1>register</h1>
+  <form action="" [formGroup]="form">
+    <input
+      [ngClass]="{ error: !this.form.get('firstName')?.valid }"
+      type="text"
+      placeholder="first name"
+      formControlName="firstName"
+    />
+    <input
+      [ngClass]="{ error: !this.form.get('lastName')?.valid }"
+      type="text"
+      placeholder="last name"
+      formControlName="lastName"
+    />
+
+    <input
+      [ngClass]="{ error: !this.form.get('birthDate')?.valid }"
+      type="date"
+      formControlName="birthDate"
+    />
+
+    <select
+      [ngClass]="{ error: !this.form.get('nationality')?.valid }"
+      formControlName="nationality"
+    >
+      <option selected disabled hidden>nationality</option>
+      <option *ngFor="let country of countries">{{ country }}</option>
+    </select>
+
+    <select
+      [ngClass]="{ error: !this.form.get('gender')?.valid }"
+      formControlName="gender"
+    >
+      <option selected disabled hidden>gender</option>
+      <option value="0">male</option>
+      <option value="1">female</option>
+      <option value="2">other</option>
+    </select>
+
+    <input
+      [ngClass]="{ error: !this.form.get('email')?.valid }"
+      type="email"
+      placeholder="email"
+      formControlName="email"
+    />
+
+    <input
+      [ngClass]="{ error: !this.form.get('password')?.valid }"
+      type="password"
+      placeholder="password"
+      formControlName="password"
+    />
+    <input
+      [ngClass]="{
+        error:
+          !this.form.get('confirmPassword')?.valid ||
+          this.form.get('confirmPassword')?.value !==
+            this.form.get('password')?.value
+      }"
+      type="password"
+      placeholder="confirm password"
+      formControlName="confirmPassword"
+    />
+    <button (click)="handleRegister()" type="button">register</button>
+  </form>
+</div>

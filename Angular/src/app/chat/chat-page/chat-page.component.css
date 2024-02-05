@@ -1,0 +1,27 @@
+.parent {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: 1fr repeat(6, 2fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+
+  height: 98vh;
+  width: 100%;
+}
+
+.div1 {
+  background-color: var(--secondary-colour);
+  grid-area: 1 / 1 / 2 / 11;
+}
+.div2 {
+  background-color: magenta;
+  grid-area: 2 / 1 / 8 / 3;
+}
+.div3 {
+  grid-area: 2 / 9 / 8 / 11;
+  background-color: magenta;
+}
+.div4 {
+  background-color: var(--primary-colour);
+  grid-area: 2 / 3 / 8 / 9;
+}

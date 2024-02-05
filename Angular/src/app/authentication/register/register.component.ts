@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { countryList } from './countries';
 import { AuthenticationApiService } from '../services/authentication-api.service';
-import { catchError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastStatus } from 'src/app/toast/ToastStatus';
 
@@ -60,23 +60,21 @@ export class RegisterComponent implements OnInit {
     this.form.get("gender")?.setValue(parseInt(this.form.get("gender")?.value));
     this.form.get("confirmPassword")?.disable();
 
-    this.api.register(this.form.value).pipe(catchError((err) => {
-        if (err.status == 0) {
-        console.error('An error occurred:', err.error);
-      } else {
+    this.api.register(this.form.value)
+      .pipe(catchError((err) => {
         this.toastStatus = ToastStatus.Error;
         this.toastMessage = "registration failed!\n" + err.error;
         this.toastShown = true;
-      }
-      return err;
-    })).subscribe(() => {
-      this.toastStatus = ToastStatus.Success;
-      this.toastMessage = "registration successful!\nredirecting to login page...";
-      this.toastShown = true;
+        return throwError(() => new Error());
+      }))
+      .subscribe(() => {
+        this.toastStatus = ToastStatus.Success;
+        this.toastMessage = "registration successful!\nredirecting to login page...";
+        this.toastShown = true;
 
-      setTimeout(() => {
-        this.router.navigateByUrl('/login')
-      }, 3000);
-    });
+        setTimeout(() => {
+          this.router.navigateByUrl('/login')
+        }, 3000);
+      });
   }
 }

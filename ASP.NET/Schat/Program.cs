@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Schat.Models;
+using Schat.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddControllers(options => options.Filters.Add(new AuthorizeFilt
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SchatContext>(options => options.UseSqlServer());
+builder.Services.AddSingleton<AuthenticationService>();
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -25,7 +27,8 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 builder.Services.AddCors(options => options.AddPolicy(name: "Angular", policy => policy
                                                     .WithOrigins("http://localhost:4200")
                                                     .AllowAnyHeader()
-                                                    .AllowAnyMethod()));
+                                                    .AllowAnyMethod()
+                                                    .AllowCredentials()));
 
 var app = builder.Build();
 

@@ -1,0 +1,21 @@
+<div class="d">
+  <div class="header"></div>
+</div>
+
+<div class="parent">
+  <div class="div1">
+    <app-header-bar></app-header-bar>
+  </div>
+  <div class="div2">
+    <app-find-friends></app-find-friends>
+  </div>
+  <div class="div3">
+    <app-friends-bar (onChatChange)="activeChat = $event"></app-friends-bar>
+  </div>
+  <div class="div4">
+    <app-chat-instance
+      [from]="activeChat ? activeChat.from : null"
+      [to]="activeChat ? activeChat.to : null"
+    ></app-chat-instance>
+  </div>
+</div>

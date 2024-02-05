@@ -1,75 +1,47 @@
 .container h1 {
-    font-size: 4em;
-    color: var(--secondary-colour);
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    cursor: default;
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
+  font-size: 4em;
+  color: var(--secondary-colour);
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  cursor: default;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 .container form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 100px;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 100px;
+  gap: 10px;
 }
 
 .container form * {
-    font-size: large;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-
-.container form input {
-    margin-bottom: 5px;
-    width: 300px;
-    border-style: none;
-    border-bottom: ridge 3px;
-    padding-block: 10px;
-    color: var(--secondary-colour);
-}
-
-.container form input:focus {
-    outline: none;
-    border-bottom: ridge 3px var(--ternary-colour);
+  font-size: large;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
 }
 
 .container form select {
-    margin-bottom: 5px;
-    width: 305px;
-    border-style: none;
-    border-bottom: ridge 3px;
-    padding-block: 10px;
-    color: var(--secondary-colour);
+  margin-bottom: 5px;
+  width: 305px;
+  border-style: none;
+  border-bottom: ridge 3px;
+  padding-block: 10px;
+  color: var(--secondary-colour);
 }
 
 .container form select:focus {
-    outline: none;
-    border-bottom: ridge 3px var(--ternary-colour);
+  outline: none;
+  border-bottom: ridge 3px var(--ternary-colour);
 }
 
 .container form .error {
-    border-bottom: ridge 1px #ff0000;
-}
-
-.container form button {
-    margin-top: 10px;
-    width: 100px;
-    height: fit-content;
-    padding: 10px;
-    border-radius: 20px;
-    background-color: var(--secondary-colour);
-    color: var(--primary-colour);
-    border: none;
-    cursor: pointer;
-}
-
-.container form button:hover {
-    background-color: var(--ternary-colour);
+  border-bottom: ridge 1px #ff0000;
 }
 
 .container form div {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }

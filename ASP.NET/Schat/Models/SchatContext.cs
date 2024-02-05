@@ -16,6 +16,7 @@ public partial class SchatContext : IdentityDbContext<User, IdentityRole<int>, i
     }
 
     public virtual DbSet<Message> Messages { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -59,13 +60,64 @@ public partial class SchatContext : IdentityDbContext<User, IdentityRole<int>, i
 
             entity.ToTable("user", "schat");
 
+            entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
+
+            entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
+                .IsUnique()
+                .HasFilter("([NormalizedUserName] IS NOT NULL)");
+
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Email).HasMaxLength(256);
             entity.Property(e => e.FirstName)
                 .HasMaxLength(255)
+                .HasDefaultValue("")
                 .HasColumnName("first_name");
             entity.Property(e => e.LastName)
                 .HasMaxLength(255)
+                .HasDefaultValue("")
                 .HasColumnName("last_name");
+            entity.Property(e => e.Nationality).HasDefaultValue("");
+            entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
+            entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
+            entity.Property(e => e.UserName).HasMaxLength(256);
+
+            entity.HasMany(d => d.User1s).WithMany(p => p.User2s)
+                .UsingEntity<Dictionary<string, object>>(
+                    "Friendship",
+                    r => r.HasOne<User>().WithMany()
+                        .HasForeignKey("User1")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__friendship__user1"),
+                    l => l.HasOne<User>().WithMany()
+                        .HasForeignKey("User2")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__friendship__user2"),
+                    j =>
+                    {
+                        j.HasKey("User1", "User2").HasName("PK__friendsh__3213E83F3A3C3F6F");
+                        j.ToTable("friendship", "schat");
+                        j.IndexerProperty<int>("User1").HasColumnName("user1");
+                        j.IndexerProperty<int>("User2").HasColumnName("user2");
+                    });
+
+            entity.HasMany(d => d.User2s).WithMany(p => p.User1s)
+                .UsingEntity<Dictionary<string, object>>(
+                    "Friendship",
+                    r => r.HasOne<User>().WithMany()
+                        .HasForeignKey("User2")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__friendship__user2"),
+                    l => l.HasOne<User>().WithMany()
+                        .HasForeignKey("User1")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__friendship__user1"),
+                    j =>
+                    {
+                        j.HasKey("User1", "User2").HasName("PK__friendsh__3213E83F3A3C3F6F");
+                        j.ToTable("friendship", "schat");
+                        j.IndexerProperty<int>("User1").HasColumnName("user1");
+                        j.IndexerProperty<int>("User2").HasColumnName("user2");
+                    });
         });
 
         OnModelCreatingPartial(modelBuilder);

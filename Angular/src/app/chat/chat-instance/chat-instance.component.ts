@@ -1,17 +1,20 @@
-import { AfterViewChecked, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Message } from '../models/Message';
+import { MessagesApiService } from 'src/app/chat/services/messages-api.service';
+import { catchError, throwError } from 'rxjs';
+import { User } from '../models/User';
 
 @Component({
   selector: 'app-chat-instance',
   templateUrl: './chat-instance.component.html',
   styleUrls: ['./chat-instance.component.css']
 })
-export class ChatInstanceComponent implements OnInit, AfterViewChecked {
+export class ChatInstanceComponent implements OnInit, AfterViewChecked, OnChanges {
   @Input()
-  from: number = 0;
+  from!: number | null;
 
   @Input()
-  to: number = 1;
+  to!: User | null;
 
   @ViewChild('chatBox')
   chatBox!: ElementRef<HTMLTextAreaElement>;
@@ -22,40 +25,43 @@ export class ChatInstanceComponent implements OnInit, AfterViewChecked {
   @ViewChild('sendButton')
   sendButton!: ElementRef<HTMLButtonElement>;
 
-  @Input()
-  messages: Message[] = [
-    { id: 1, text: "Hello alice", from: 0, to: 1, date: new Date() },
-    { id: 2, text: "Hi bob", from: 1, to: 0, date: new Date() },
-    { id: 3, text: "how are you alice ?", from: 0, to: 1, date: new Date() },
-    { id: 4, text: "i am fine. hbu bob ?", from: 1, to: 0, date: new Date() },
-    { id: 5, text: "i am doing well, alice, thanks for asking", from: 0, to: 1, date: new Date() },
-    { id: 1, text: "Hello alice", from: 0, to: 1, date: new Date() },
-    { id: 2, text: "Hi bob", from: 1, to: 0, date: new Date() },
-    { id: 3, text: "how are you alice ?", from: 0, to: 1, date: new Date() },
-    { id: 4, text: "i am fine. hbu bob ?", from: 1, to: 0, date: new Date() },
-    { id: 5, text: "i am doing well, alice, thanks for asking", from: 0, to: 1, date: new Date() },
-    { id: 1, text: "Hello alice", from: 0, to: 1, date: new Date() },
-    { id: 2, text: "Hi bob", from: 1, to: 0, date: new Date() },
-    { id: 3, text: "how are you alice ?", from: 0, to: 1, date: new Date() },
-    { id: 4, text: "i am fine. hbu bob ?", from: 1, to: 0, date: new Date() },
-    { id: 5, text: "i am doing well, alice, thanks for asking", from: 0, to: 1, date: new Date() },
-    { id: 1, text: "Hello alice", from: 0, to: 1, date: new Date() },
-    { id: 2, text: "Hi bob", from: 1, to: 0, date: new Date() },
-    { id: 3, text: "how are you alice ?", from: 0, to: 1, date: new Date() },
-    { id: 4, text: "i am fine. hbu bob ?", from: 1, to: 0, date: new Date() },
-    { id: 5, text: "i am doing well, alice, thanks for asking", from: 0, to: 1, date: new Date() },
-  ];
+  messages: Message[] = [];
 
-  constructor() { }
+  constructor(
+    private api: MessagesApiService
+  ) { }
 
   ngAfterViewChecked() {
-    this.chatDiv.nativeElement.scrollTop = this.chatDiv.nativeElement.scrollHeight;
+    if (this.chatDiv) {
+      this.chatDiv.nativeElement.scrollTop = this.chatDiv.nativeElement.scrollHeight;
+    }
   }
 
   ngOnInit(): void {
   }
 
-  handleKeyDown(e: any) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['from'] && !changes['to'] || !this.from || !this.to) {
+      return;
+    }
+
+    let from = changes['from']?.currentValue;
+    if (!changes['from']) {
+      from = this.from;
+    }
+    const to = changes['to']?.currentValue.id;
+
+    this.api.getMessagesBetween(from, to)
+      .pipe(catchError((err) => {
+        alert(err.error);
+        return throwError(() => new Error());
+      }))
+      .subscribe((messages) => {
+        this.messages = messages.map((message) => { return { ...message, date: new Date(message.date) } });
+      });
+  }
+
+  handleKeyDown(e: KeyboardEvent) {
     if (e.key == 'Enter' && !e.shiftKey) {
       e.preventDefault();
       this.sendButton.nativeElement.click();
@@ -77,16 +83,22 @@ export class ChatInstanceComponent implements OnInit, AfterViewChecked {
       return;
     }
 
-    this.messages.push({
-      id: this.messages.length + 1,
+    this.api.sendMessage({
+      id: 0,
       text: this.chatBox.nativeElement.value.trim(),
-      from: this.from,
-      to: this.to,
+      from: this.from!,
+      to: this.to?.id!,
       date: new Date()
-    });
-
-    this.chatBox.nativeElement.value = '';
-    this.chatBox.nativeElement.style.height = '';
-    this.chatDiv.nativeElement.scrollBy(0, this.chatDiv.nativeElement.clientHeight);
+    })
+      .pipe(catchError((err) => {
+        alert(err.error);
+        return throwError(() => new Error());
+      }))
+      .subscribe(message => {
+        message.date = new Date(message.date);
+        this.messages.push(message);
+        this.chatBox.nativeElement.value = '';
+        this.chatBox.nativeElement.style.height = '';
+      });
   }
 }

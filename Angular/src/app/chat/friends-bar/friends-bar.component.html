@@ -1,0 +1,36 @@
+<div class="container">
+  <h1 style="align-self: flex-start">friends</h1>
+  <div class="friends-list">
+    <div
+      *ngFor="let friend of friends; let last = last"
+      class="friend-entry"
+      [ngClass]="{ 'last-friend': last }"
+    >
+      <div
+        style="
+          border-radius: 100%;
+          background-color: black;
+          min-width: 50px;
+          min-height: 50px;
+          width: 50px;
+          height: 50px;
+        "
+      ></div>
+      <p style="word-break: break-all">
+        {{ friend.firstName }} {{ friend.lastName }}
+        <span
+          style="
+            font-size: x-small;
+            color: var(--success);
+            /* -webkit-text-stroke: 0.2px; */
+            /* -webkit-text-stroke-color: var(--secondary-colour); */
+          "
+          >online</span
+        >
+      </p>
+      <button (click)="handleChangeChat(friend)" class="dark-button">
+        chat
+      </button>
+    </div>
+  </div>
+</div>

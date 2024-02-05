@@ -1,9 +1,10 @@
-<div class="container">
+<div *ngIf="from && to" class="container">
+  <div class="friend-name">{{ to.firstName }} {{ to.lastName }}</div>
   <div
     style="
       background-color: #313131;
-      width: 60%;
-      height: 70%;
+      width: 95%;
+      height: 92%;
       border-radius: 100px;
       display: grid;
       grid-template-rows: 13fr 1fr;
@@ -12,7 +13,7 @@
   >
     <div #chat class="chat">
       <span
-        [ngClass]="{ right: message.from == from, left: message.from == to }"
+        [ngClass]="{ right: message.from == from, left: message.from == to.id }"
         *ngFor="let message of messages"
       >
         {{ message.text }}
@@ -32,7 +33,9 @@
         (keydown)="handleKeyDown($event)"
         (input)="handleInput()"
       ></textarea>
-      <button #sendButton (click)="handleSendMessage()">send</button>
+      <button class="dark-button" #sendButton (click)="handleSendMessage()">
+        send
+      </button>
     </div>
   </div>
 </div>

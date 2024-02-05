@@ -2,12 +2,14 @@
   <h1>register</h1>
   <form action="" [formGroup]="form">
     <input
+      class="simple-input"
       [ngClass]="{ error: !this.form.get('firstName')?.valid }"
       type="text"
       placeholder="first name"
       formControlName="firstName"
     />
     <input
+      class="simple-input"
       [ngClass]="{ error: !this.form.get('lastName')?.valid }"
       type="text"
       placeholder="last name"
@@ -15,6 +17,7 @@
     />
 
     <input
+      class="simple-input"
       [ngClass]="{ error: !this.form.get('birthDate')?.valid }"
       type="date"
       formControlName="birthDate"
@@ -39,6 +42,7 @@
     </select>
 
     <input
+      class="simple-input"
       [ngClass]="{ error: !this.form.get('email')?.valid }"
       type="email"
       placeholder="email"
@@ -46,12 +50,14 @@
     />
 
     <input
+      class="simple-input"
       [ngClass]="{ error: !this.form.get('password')?.valid }"
       type="password"
       placeholder="password"
       formControlName="password"
     />
     <input
+      class="simple-input"
       [ngClass]="{
         error:
           !this.form.get('confirmPassword')?.valid ||
@@ -62,7 +68,9 @@
       placeholder="confirm password"
       formControlName="confirmPassword"
     />
-    <button (click)="handleRegister()" type="button">register</button>
+    <button class="dark-button" (click)="handleRegister()" type="button">
+      register
+    </button>
   </form>
 </div>
 

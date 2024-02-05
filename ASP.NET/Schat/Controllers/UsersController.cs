@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Schat.Models;
+using Schat.Services;
 
 namespace Schat.Controllers
 {
@@ -11,10 +12,12 @@ namespace Schat.Controllers
     public class UsersController : ControllerBase
     {
         private readonly SchatContext _context;
+        private readonly AuthenticationService _authService;
 
-        public UsersController(SchatContext context)
+        public UsersController(SchatContext context, AuthenticationService authService)
         {
             _context = context;
+            _authService = authService;
         }
 
         // GET: api/Users
@@ -22,6 +25,24 @@ namespace Schat.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
+        }
+
+        // GET: api/Users/friends/id
+        [HttpGet("friends")]
+        public async Task<ActionResult<IEnumerable<User>>> GetFriends()
+        {
+            int? id = _authService.GetUserId(HttpContext.User);
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(
+                await _context.Set<User>()
+                .Where(pt => pt.Id == id)
+                .Select(pt => pt.User2s)
+                .FirstAsync()
+            );
         }
 
         // GET: api/Users/5
@@ -67,6 +88,34 @@ namespace Schat.Controllers
             }
 
             return NoContent();
+        }
+
+        // POST: api/Users
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost("add-friend/{friendId}")]
+        public async Task<ActionResult> AddFriend(int friendId)
+        {
+            int? userId = _authService.GetUserId(HttpContext.User);
+            if (userId == null)
+            {
+                return BadRequest();
+            }
+
+            User? user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound("user not found");
+            }
+
+            User? friend = await _context.Users.FindAsync(friendId);
+            if (friend == null)
+            {
+                return NotFound("friend not found");
+            }
+
+            user.User2s.Add(friend);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
         // POST: api/Users

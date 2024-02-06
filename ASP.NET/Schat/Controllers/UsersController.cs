@@ -13,11 +13,35 @@ namespace Schat.Controllers
     {
         private readonly SchatContext _context;
         private readonly AuthenticationService _authService;
+        private readonly SearchService _searchService;
 
-        public UsersController(SchatContext context, AuthenticationService authService)
+        public UsersController(SchatContext context, AuthenticationService authService, SearchService searchService)
         {
             _context = context;
             _authService = authService;
+            _searchService = searchService;
+        }
+
+        // GET: api/Users/no-self-no-friends
+        [HttpGet("no-self-no-friends")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersNoSelf()
+        {
+            int? id = _authService.GetUserId(HttpContext.User);
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            User? user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound("user not found");
+            }
+
+            await _context.Entry(user).Collection(u => u.User2s).LoadAsync();
+
+            ICollection<User> friends = user.User2s;
+            return await _context.Users.Where(u => u.Id != id && !friends.Contains(u)).ToListAsync();
         }
 
         // GET: api/Users
@@ -43,6 +67,32 @@ namespace Schat.Controllers
                 .Select(pt => pt.User2s)
                 .FirstAsync()
             );
+        }
+
+        // GET: api/Users/search/{key}
+        [HttpGet("search/{key}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers(string key)
+        {
+            return Ok(await _searchService.Search(key));
+        }
+
+        // GET: api/Users/self
+        [HttpGet("self")]
+        public async Task<ActionResult<User>> GetSelf()
+        {
+            int? id = _authService.GetUserId(HttpContext.User);
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound("user not found");
+            }
+
+            return user;
         }
 
         // GET: api/Users/5

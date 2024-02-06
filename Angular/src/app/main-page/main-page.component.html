@@ -1,0 +1,33 @@
+<div class="d">
+  <div class="header"></div>
+</div>
+
+<div class="parent">
+  <div class="div1">
+    <app-header-bar
+      (profileEvent)="handleChangeProfile($event)"
+    ></app-header-bar>
+  </div>
+  <div class="div2">
+    <app-find-friends
+      (onProfileChange)="handleChangeProfile($event)"
+    ></app-find-friends>
+  </div>
+  <div class="div3">
+    <app-friends-bar
+      (onChatChange)="handleChatChange($event)"
+      (onProfileChange)="handleChangeProfile($event)"
+    ></app-friends-bar>
+  </div>
+  <div class="div4">
+    <app-chat-instance
+      *ngIf="activeChat && !activeProfile"
+      [from]="activeChat ? activeChat.from : null"
+      [to]="activeChat ? activeChat.to : null"
+    ></app-chat-instance>
+    <app-profile-page
+      [user]="activeProfile"
+      *ngIf="activeProfile && !activeChat"
+    ></app-profile-page>
+  </div>
+</div>

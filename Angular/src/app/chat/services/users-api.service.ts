@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../models/User';
+import { User } from '../../profile/models/User';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -17,8 +17,16 @@ export class UsersApiService {
     private http: HttpClient
   ) { }
 
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.url, { headers: this.headers, withCredentials: true });
+  getAllUsersNoSelf(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.url}/no-self-no-friends`, { headers: this.headers, withCredentials: true });
+  }
+
+  getSelf(): Observable<User> {
+    return this.http.get<User>(`${this.url}/self`, { headers: this.headers, withCredentials: true });
+  }
+
+  search(key: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.url}/search/${key}`, { headers: this.headers, withCredentials: true });
   }
 
   getFriends(): Observable<User[]> {

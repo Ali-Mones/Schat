@@ -14,6 +14,14 @@ h1 {
   margin-bottom: 10px;
 }
 
+p {
+  word-break: break-all;
+}
+
+p:hover {
+  cursor: pointer;
+}
+
 .friends-list {
   width: 100%;
   display: flex;

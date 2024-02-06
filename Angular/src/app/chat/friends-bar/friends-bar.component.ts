@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthenticationApiService } from 'src/app/authentication/services/authentication-api.service';
 import { catchError, throwError } from 'rxjs';
-import { User } from '../models/User';
+import { User } from '../../profile/models/User';
 import { UsersApiService } from '../services/users-api.service';
 
 @Component({
@@ -16,6 +16,9 @@ export class FriendsBarComponent implements OnInit {
   @Output()
   onChatChange = new EventEmitter<{ from: number, to: User }>();
 
+  @Output()
+  onProfileChange = new EventEmitter<User>();
+
   constructor(
     private authenticationApi: AuthenticationApiService,
     private usersApi: UsersApiService
@@ -28,7 +31,9 @@ export class FriendsBarComponent implements OnInit {
         return throwError(() => new Error());
       }))
       .subscribe((friends) => {
-        this.friends = friends;
+        this.friends = friends.map((friend) => {
+          return { ...friend, birthDate: new Date(friend.birthDate!) }
+        });
       });
   }
 

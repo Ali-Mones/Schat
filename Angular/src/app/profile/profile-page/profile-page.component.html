@@ -1,0 +1,32 @@
+<div class="container">
+  <h1>profile</h1>
+  <div class="image"></div>
+  <div class="profile-entry">
+    <p>name:</p>
+    <p style="margin-left: auto">{{ user.firstName }} {{ user.lastName }}</p>
+  </div>
+  <div class="profile-entry">
+    <p>gender:</p>
+    <p style="margin-left: auto">
+      {{ getGenderString(user.gender!) }}
+    </p>
+  </div>
+  <div class="profile-entry">
+    <p>birth date:</p>
+    <p style="margin-left: auto">
+      {{ user.birthDate!.getDate().toString() }}
+      {{ getMonthName(user.birthDate!.getMonth()) }}
+      {{ user.birthDate!.getFullYear() }}
+    </p>
+  </div>
+  <div class="profile-entry">
+    <p>nationality:</p>
+    <p style="margin-left: auto">
+      {{ user.nationality }}
+    </p>
+  </div>
+  <div class="profile-entry">
+    <p>email:</p>
+    <p style="margin-left: auto">{{ user.email }}</p>
+  </div>
+</div>

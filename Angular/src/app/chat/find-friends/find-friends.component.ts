@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UsersApiService } from '../services/users-api.service';
-import { User } from '../models/User';
+import { User } from '../../profile/models/User';
 import { catchError, throwError } from 'rxjs';
 
 @Component({
@@ -13,14 +13,19 @@ export class FindFriendsComponent implements OnInit {
 
   searchTimeout!: NodeJS.Timeout;
 
+  @Output()
+  onProfileChange = new EventEmitter<User>();
+
   constructor(
     private usersApi: UsersApiService
   ) { }
 
   ngOnInit(): void {
-    this.usersApi.getAllUsers()
+    this.usersApi.getAllUsersNoSelf()
       .subscribe((users) => {
-        this.users = users;
+        this.users = users.map((user) => {
+          return { ...user, birthDate: new Date(user.birthDate!) }
+        });
       });
   }
 
@@ -34,12 +39,19 @@ export class FindFriendsComponent implements OnInit {
     const timeout = 500;
     this.searchTimeout = setTimeout(() => {
       if (value === '') {
-        this.usersApi.getAllUsers()
+        this.usersApi.getAllUsersNoSelf()
           .subscribe((users) => {
-            this.users = users;
+            this.users = users.map((user) => {
+              return { ...user, birthDate: new Date(user.birthDate!) }
+            });
           });
       } else {
-        // call api here for users that match the value
+        this.usersApi.search(value)
+          .subscribe((users) => {
+            this.users = users.map((user) => {
+              return { ...user, birthDate: new Date(user.birthDate!) }
+            });
+          });
       }
     }, timeout);
   }

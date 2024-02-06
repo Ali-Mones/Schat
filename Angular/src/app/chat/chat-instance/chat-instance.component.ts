@@ -2,7 +2,7 @@ import { AfterViewChecked, Component, ElementRef, Input, OnChanges, OnInit, Simp
 import { Message } from '../models/Message';
 import { MessagesApiService } from 'src/app/chat/services/messages-api.service';
 import { catchError, throwError } from 'rxjs';
-import { User } from '../models/User';
+import { User } from '../../profile/models/User';
 
 @Component({
   selector: 'app-chat-instance',

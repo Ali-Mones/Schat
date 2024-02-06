@@ -10,9 +10,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastComponent } from './toast/toast.component';
 import { ChatInstanceComponent } from './chat/chat-instance/chat-instance.component';
 import { FriendsBarComponent } from './chat/friends-bar/friends-bar.component';
-import { ChatPageComponent } from './chat/chat-page/chat-page.component';
+import { MainPageComponent } from './main-page/main-page.component';
 import { FindFriendsComponent } from './chat/find-friends/find-friends.component';
 import { HeaderBarComponent } from './header-bar/header-bar.component';
+import { ProfilePageComponent } from './profile/profile-page/profile-page.component';
 
 @NgModule({
   declarations: [
@@ -22,9 +23,10 @@ import { HeaderBarComponent } from './header-bar/header-bar.component';
     ToastComponent,
     ChatInstanceComponent,
     FriendsBarComponent,
-    ChatPageComponent,
+    MainPageComponent,
     FindFriendsComponent,
-    HeaderBarComponent
+    HeaderBarComponent,
+    ProfilePageComponent
   ],
   imports: [
     BrowserModule,

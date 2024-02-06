@@ -1,49 +1,58 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-    --primary-colour: #fafafa;
-    --secondary-colour: #212121;
-    --ternary-colour: #424242;
-    --error: #d50000;
-    --success: #00d500;
+  --primary-colour: #fafafa;
+  --secondary-colour: #212121;
+  --ternary-colour: #424242;
+  --error: #d50000;
+  --success: #00d500;
 }
 
 .container {
-    background-color: var(--primary-colour);
-    height: 98vh;
+  background-color: var(--primary-colour);
+  height: 98vh;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .dark-button {
-    margin-top: 10px;
-    width: 100px;
-    height: fit-content;
-    padding: 10px;
-    border-radius: 20px;
-    background-color: var(--secondary-colour);
-    color: var(--primary-colour);
-    border: none;
-    cursor: pointer;
+  margin-top: 10px;
+  width: 100px;
+  height: fit-content;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+  border: none;
+  cursor: pointer;
 }
 
 .dark-button:hover {
-    background-color: var(--ternary-colour);
+  background-color: var(--ternary-colour);
 }
 
 .simple-input {
-    margin-bottom: 5px;
-    width: 300px;
-    border-style: none;
-    border-bottom: ridge 3px;
-    padding-block: 10px;
-    color: var(--secondary-colour);
+  margin-bottom: 5px;
+  width: 300px;
+  border-style: none;
+  border-bottom: ridge 3px;
+  padding-block: 10px;
+  color: var(--secondary-colour);
 }
 
 .simple-input:focus {
-    outline: none;
-    border-bottom: ridge 3px var(--ternary-colour);
+  outline: none;
+  border-bottom: ridge 3px var(--ternary-colour);
+}
+
+.image {
+  border-radius: 100%;
+  background-color: black;
+  min-width: 50px;
+  min-height: 50px;
+  width: 50px;
+  height: 50px;
 }

@@ -13,6 +13,14 @@ h1 {
   margin-top: 10px;
 }
 
+p {
+  word-break: break-all;
+}
+
+p:hover {
+  cursor: pointer;
+}
+
 .users-list {
   width: 100%;
   display: flex;

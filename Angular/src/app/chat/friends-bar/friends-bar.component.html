@@ -1,22 +1,13 @@
 <div class="container">
-  <h1 style="align-self: flex-start">friends</h1>
+  <h1 style="align-self: flex-start">chat</h1>
   <div class="friends-list">
     <div
       *ngFor="let friend of friends; let last = last"
       class="friend-entry"
       [ngClass]="{ 'last-friend': last }"
     >
-      <div
-        style="
-          border-radius: 100%;
-          background-color: black;
-          min-width: 50px;
-          min-height: 50px;
-          width: 50px;
-          height: 50px;
-        "
-      ></div>
-      <p style="word-break: break-all">
+      <div class="image"></div>
+      <p (click)="onProfileChange.emit(friend)">
         {{ friend.firstName }} {{ friend.lastName }}
         <span
           style="

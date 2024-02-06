@@ -12,7 +12,8 @@ builder.Services.AddControllers(options => options.Filters.Add(new AuthorizeFilt
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SchatContext>(options => options.UseSqlServer());
-builder.Services.AddSingleton<AuthenticationService>();
+builder.Services.AddScoped<AuthenticationService>();
+builder.Services.AddScoped<SearchService>();
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

@@ -20,6 +20,10 @@ const routes: Routes = [
     component: MainPageComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: '**',
+    redirectTo: ''
+  }
 ];
 
 @NgModule({
